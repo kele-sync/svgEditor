@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>svg绘制</title>
+  <script src="https://cdn.jsdelivr.net/npm/svg.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/svg.draggy.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/svg.select.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/svg.resize.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/svg.draw.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/svg.panzoom.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+  <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+  <link rel="stylesheet" href="./codemirror/lib/codemirror.css">
+  <link rel="stylesheet" href="./codemirror/addon/lint/lint.css">
+  <link rel="stylesheet" href="./codemirror/addon/hint/show-hint.css">
+  <link rel="stylesheet" href="./codemirror/addon/display/fullscreen.css">
+  <link rel="stylesheet" href="./codemirror/theme/midnight.css">
+  <script src="./codemirror/lib/codemirror.js"></script>
+  <script src="./codemirror/addon/edit/closebrackets.js"></script>
+  <script src="./codemirror/mode/javascript/javascript.js"></script>
+  <script src="./codemirror/addon/hint/show-hint.js"></script>
+  <script src="./codemirror/addon/hint/javascript-hint.js"></script>
+  <script src="https://unpkg.com/jshint@2.9.6/dist/jshint.js"></script>
+  <script src="./codemirror/addon/selection/active-line.js"></script>
+  <script src="./codemirror/addon/edit/matchbrackets.js"></script>
+  <script src="./codemirror/addon/display/fullscreen.js"></script>
+  <script src="./codemirror/addon/lint/lint.js"></script>
+  <script src="./codemirror/addon/lint/javascript-lint.js"></script>
+  <!-- html -->
+  <script src="./codemirror/lib/formatting.js"></script>
+  <script src="./codemirror/addon/edit/closetag.js"></script>
+  <script src="./codemirror/addon/fold/xml-fold.js"></script>
+  <script src="./codemirror/mode/xml/xml.js"></script>
+  <script src="./codemirror/mode/css/css.js"></script>
+  <script src="./codemirror/addon/hint/xml-hint.js"></script>
+  <script src="./codemirror/addon/hint/html-hint.js"></script>
+  <script src="./codemirror/mode/htmlmixed/htmlmixed.js"></script>
+  <link rel="stylesheet" href="./codemirror/theme/cobalt.css">
+
+  <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+  <div class="container f-c" id="app">
+    <input ref="import" type="file" hidden accept=".svg" @change="importSvg">
+    <input ref="upload" type="file" hidden accept="image/*" @change="uploadComponent">
+
+    <el-menu mode="horizontal" @change="" background-color="#545c64" text-color="#fff" active-text-color="#ffd04b">
+      <el-submenu index="1">
+        <template slot="title">文件</template>
+        <el-menu-item index="1-1" @click="triggerImportClick">导入</el-menu-item>
+        <el-menu-item index="1-2" @click="exportSvg">导出</el-menu-item>
+      </el-submenu>
+      <el-submenu index="2">
+        <template slot="title">我的工作台</template>
+        <el-submenu index="2-1">
+          <template slot="title">显示内容</template>
+          <el-menu-item index="2-1-1" @click="setting.tools.show=!setting.tools.show">工具栏</el-menu-item>
+          <el-menu-item index="2-2-2" @click="setting.property.show=!setting.property.show">属性栏</el-menu-item>
+          <el-menu-item index="2-3-3" @click="setting.board.boxShow=!setting.board.boxShow">网格线</el-menu-item>
+        </el-submenu>
+        <el-menu-item index="2-2" @click="clearBoard">清空操作台</el-menu-item>
+      </el-submenu>
+      <el-submenu index="3">
+        <template slot="title">操作</template>
+        <el-submenu index="3-1">
+          <template slot="title">选中元素层级</template>
+          <el-menu-item index="3-1-1" @click="setActiveElementIndex('front')">选中元素前置</el-menu-item>
+          <el-menu-item index="3-1-2" @click="setActiveElementIndex('back')">选中元素后置</el-menu-item>
+        </el-submenu>
+        <el-submenu index="3-2">
+          <template slot="title">缩放</template>
+          <el-menu-item index="3-2-1" @click="setZoom('add')">放大</el-menu-item>
+          <el-menu-item index="3-2-2" @click="setZoom('reduce')">缩小</el-menu-item>
+          <el-menu-item index="3-2-3" @click="setZoom('reset')">重置</el-menu-item>
+        </el-submenu>
+      </el-submenu>
+      <el-menu-item index="4" @click="GuiModel=!GuiModel">切换{{GuiModel?"代码":"视图"}}模式</el-menu-item>
+    </el-menu>
+    <div class="f-r f-g-1">
+      <el-card class="tools f-s-0" v-show="setting.tools.show">
+        <div slot="header" class="clearfix">
+          <span>工具栏</span>
+          <el-button style="float: right;padding: 0;" @click="setting.tools.show=false" type="text" size="mini">隐藏
+          </el-button>
+        </div>
+        <el-collapse :value="['1','2','3','4']">
+          <el-collapse-item title="预设通用模块" name="1">
+            <img src="./images/设备管理.svg" class="common-svg" draggable="true"
+              @dragstart="e=>dragCommonSvg(e,'./images/设备管理.svg')">
+          </el-collapse-item>
+          <el-collapse-item title="线条" name="2">
+            <el-tooltip class="item" effect="dark" content="左键双击结束画图" placement="top-start">
+              <el-button size="mini" @click="createLine({})">
+                <img src="./images/直线.svg" class="line-svg">
+              </el-button>
+            </el-tooltip>
+            <el-button size="mini" @click="createLine({ 'stroke-dasharray': 6 })">
+              <img src="./images/虚线.svg" class="line-svg">
+            </el-button>
+          </el-collapse-item>
+          <el-collapse-item title="自定义模块" name="3">
+            <img v-for="i in drawComponent" :src="i" :key="i" class="common-svg" draggable="true"
+              @dragstart="e=>dragCommonSvg(e,i)">
+            <br>
+            <el-button size="small" type="primary" @click="triggerUploadClick">点击上传</el-button>
+          </el-collapse-item>
+        </el-collapse>
+      </el-card>
+      <div class="f-g-1 " :class="{box:setting.board.boxShow}">
+        <div id="board" v-show="GuiModel" @drop="dropBoard(event)" @dragover="(e)=>e.preventDefault()"></div>
+        <div class="demo f-r" v-show="!GuiModel">
+          <textarea ref="demo" class="demo-text f-s-0"></textarea>
+          <iframe id="preview" class="preview f-s-0"></iframe>
+        </div>
+      </div>
+      <el-card class="property f-s-0" v-show="setting.property.show&&activeProperty.id">
+        <div slot="header" class="clearfix">
+          <span>模块设置</span>
+          <el-button style="float: right;padding: 0;" @click="setting.property.show=false" type="text" size="mini">隐藏
+          </el-button>
+        </div>
+        <el-collapse :value="['1','2','3','4']">
+          <el-collapse-item title="属性设置" name="1">
+            <el-form label-width="50px">
+              <el-form-item label="id:">
+                <el-input v-model.number="activeProperty.id" @input="(v)=>setProperty(v,'id')"></el-input>
+              </el-form-item>
+              <el-form-item label="x:">
+                <el-input v-model.number="activeProperty.x" @input="(v)=>setProperty(v,'x')"></el-input>
+              </el-form-item>
+              <el-form-item label="y:">
+                <el-input v-model.number="activeProperty.y" @input="(v)=>setProperty(v,'y')"></el-input>
+              </el-form-item>
+              <el-form-item label="width:">
+                <el-input v-model.number="activeProperty.width" @input="(v)=>setProperty(v,'width')"></el-input>
+              </el-form-item>
+              <el-form-item label="height:">
+                <el-input v-model.number="activeProperty.height" @input="(v)=>setProperty(v,'height')"></el-input>
+              </el-form-item>
+              <el-form-item label="stroke:">
+                <el-input v-model="activeProperty.stroke" @input="(v)=>setProperty(v,'stroke')"></el-input>
+              </el-form-item>
+              <el-form-item label="fill:">
+                <el-input v-model="activeProperty.fill" @input="(v)=>setProperty(v,'fill')"></el-input>
+              </el-form-item>
+            </el-form>
+          </el-collapse-item>
+          <el-collapse-item title="操作" name="2">
+            <el-tooltip effect="dark" content="编写选中模块JavaScript" placement="top-start">
+              <el-button type="primary" icon="el-icon-edit" circle @click="editJs"></el-button>
+            </el-tooltip>
+            <el-tooltip effect="dark" content="从画板中删除当前模块" placement="top-start">
+              <el-button type="danger" icon="el-icon-delete" circle @click="deleteElement"></el-button>
+            </el-tooltip>
+          </el-collapse-item>
+        </el-collapse>
+      </el-card>
+      <el-dialog title="JavaScript代码编辑" :visible.sync="editor.show" width="50%" @open="editorInit">
+        <textarea ref="editor"></textarea>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="editor.show = false">取 消</el-button>
+          <el-button type="primary" @click="saveEdit">确 定</el-button>
+        </span>
+      </el-dialog>
+    </div>
+  </div>
+  <script src="svg.js"></script>
+</body>
+
+</html>

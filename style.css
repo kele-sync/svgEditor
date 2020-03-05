@@ -1,0 +1,301 @@
+/* http://meyerweb.com/eric/tools/css/reset/
+   v4.0 | 20180602
+   License: none (public domain)
+*/
+
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+main,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+    margin        : 0;
+    padding       : 0;
+    border        : 0;
+    font-size     : 100%;
+    font          : inherit;
+    vertical-align: baseline;
+}
+
+/* HTML5 display-role reset for older browsers */
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+main,
+menu,
+nav,
+section {
+    display: block;
+}
+
+/* HTML5 hidden-attribute fix for newer browsers */
+*[hidden] {
+    display: none;
+}
+
+body {
+    line-height: 1;
+}
+
+ol,
+ul {
+    list-style: none;
+}
+
+blockquote,
+q {
+    quotes: none;
+}
+
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+    content: '';
+    content: none;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing : 0;
+}
+
+.f-r {
+    display: flex;
+}
+
+.f-l {
+    display: inline-flex;
+}
+
+.f-c {
+    display       : flex;
+    flex-direction: column;
+}
+
+.f-a-s {
+    align-items: flex-start;
+}
+
+.f-a-e {
+    align-items: flex-end;
+}
+
+.f-a-c {
+    align-items: center;
+}
+
+.f-a-s {
+    align-items: stretch;
+}
+
+.f-j-b {
+    justify-content: space-between;
+}
+
+.f-j-a {
+    justify-content: space-around;
+}
+
+.f-j-e {
+    justify-content: flex-end;
+}
+
+.f-j-c {
+    justify-content: center;
+}
+
+.f-g-1 {
+    flex-grow: 1;
+}
+
+.f-w {
+    flex-wrap: wrap
+}
+
+.f-s-0 {
+    flex-shrink: 0
+}
+.svg_select_points_lt{
+    cursor: nw-resize;
+}
+.svg_select_points_rt{
+    cursor: ne-resize;
+}
+.svg_select_points_rb{
+    cursor: se-resize;
+}
+.svg_select_points_lb{
+    cursor: sw-resize;
+}
+.svg_select_points_t{
+    cursor: n-resize;
+}
+.svg_select_points_r{
+    cursor: e-resize;
+}
+.svg_select_points_b{
+    cursor: s-resize;
+}
+.svg_select_points_l{
+    cursor: w-resize;
+}
+
+.svg_select_points_rot{
+    stroke-width:1;
+    stroke:black;
+    fill: #F9FFED;
+}
+
+.svg_select_points_point{
+    cursor: move;
+}
+
+.svg_select_boundingRect{
+    stroke-width:1;
+    fill:gray;
+    stroke-dasharray:10 10;
+    stroke:black;
+    stroke-opacity:0.8;
+    fill-opacity:0.1;
+    pointer-events:none; /* This ons is needed if you want to deselect or drag the shape*/
+}
+
+
+.container{
+  height: 100vh;
+  width: 100vw;
+}
+.tools,.property{
+  width: 14vw;
+}
+
+.common-svg{
+  width: 40px;
+  height: 40px;
+}
+.line-svg{
+  width: 20px;
+  height: 20px; 
+}
+.el-menu--horizontal>.el-submenu .el-submenu__title{
+  height: 35px;
+  line-height: 35px;
+}
+.el-menu--horizontal>.el-menu-item{
+    height: 35px;
+  line-height: 35px;
+}
+.el-card__body {
+    padding: 0 20px;
+}
+  
+.title-bar{
+    margin-bottom: 20px;
+}
+
+.box #board{
+    background-image: url('./grid.png');
+}
+#board{
+  height: 100%
+}
+.CodeMirror-lint-tooltip{
+    z-index: 4000;
+}
+.CodeMirror-hints{
+    z-index: 4000
+}
+.demo{
+    height: 100%;
+}
+.demo-text,.preview{
+    width: 50%; 
+    overflow: auto;
+}
+.demo .cm-s-cobalt.CodeMirror{
+    height: 100vh !important;
+    width: 50vw !important;
+    overflow: auto;
+}
