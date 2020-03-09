@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>app 编辑</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+  <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+  <link rel="stylesheet" href="./codemirror/lib/codemirror.css">
+  <link rel="stylesheet" href="./codemirror/addon/lint/lint.css">
+  <link rel="stylesheet" href="./codemirror/addon/hint/show-hint.css">
+  <link rel="stylesheet" href="./codemirror/addon/display/fullscreen.css">
+  <link rel="stylesheet" href="./codemirror/theme/midnight.css">
+  <script src="./codemirror/lib/codemirror.js"></script>
+  <script src="./codemirror/addon/edit/closebrackets.js"></script>
+  <script src="./codemirror/mode/javascript/javascript.js"></script>
+  <script src="./codemirror/addon/hint/show-hint.js"></script>
+  <script src="./codemirror/addon/hint/javascript-hint.js"></script>
+  <script src="https://unpkg.com/jshint@2.9.6/dist/jshint.js"></script>
+  <script src="./codemirror/addon/selection/active-line.js"></script>
+  <script src="./codemirror/addon/edit/matchbrackets.js"></script>
+  <script src="./codemirror/addon/display/fullscreen.js"></script>
+  <script src="./codemirror/addon/lint/lint.js"></script>
+  <script src="./codemirror/addon/lint/javascript-lint.js"></script>
+  <!-- html -->
+  <script src="./codemirror/lib/formatting.js"></script>
+  <script src="./codemirror/addon/edit/closetag.js"></script>
+  <script src="./codemirror/addon/fold/xml-fold.js"></script>
+  <script src="./codemirror/mode/xml/xml.js"></script>
+  <script src="./codemirror/mode/css/css.js"></script>
+  <script src="./codemirror/addon/hint/xml-hint.js"></script>
+  <script src="./codemirror/addon/hint/html-hint.js"></script>
+  <script src="./codemirror/mode/htmlmixed/htmlmixed.js"></script>
+  <link rel="stylesheet" href="./codemirror/theme/cobalt.css">
+
+  <link rel="stylesheet" href="./styles/app.css">
+</head>
+
+<body>
+  <div id="app" class="f-r">
+    <div class="demo f-s-0 f-g-1 f-c">
+      <textarea ref="demo"></textarea>
+      <div class="group">
+        <el-button @click="addButton">按钮</el-button>
+      </div>
+    </div>
+    <div class="view f-s-0 f-g-1">
+      <iframe id="preview" class="preview f-s-0"></iframe>
+    </div>
+  </div>
+
+  <script src="./scripts/app.js"></script>
+</body>
+
+</html>
